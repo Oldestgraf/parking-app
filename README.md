@@ -62,7 +62,7 @@
 
 Поєднання `Tab.Navigator` і `Stack.Navigator` для перемикання між основними екранами та деталями.
 
-![Orders -> OrderDetails video](./images/video/swipe.jpeg)
+![Orders -> OrderDetails video](./images/video/swipe-video.mp4)
 
 > Файл: `navigation/AppNavigator.jsx`
 
