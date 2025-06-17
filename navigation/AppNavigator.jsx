@@ -27,17 +27,32 @@ function Tabs() {
   );
 }
 
+const config = {
+  animation: 'spring',
+  config: {
+    stiffness: 1000,
+    damping: 500,
+    mass: 3,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
+};
+
 export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* Вкладка як головний екран */}
         <Stack.Screen
           name="Orders"
           component={Tabs}
-          options={{ headerShown: false }}
+          options={{ 
+            headerShown: false, 
+            transitionSpec: {
+              open: config,
+              close: config,
+            },}}
         />
-        {/* Деталі замовлення */}
         <Stack.Screen
           name="OrderDetails"
           component={OrderDetailsScreen}

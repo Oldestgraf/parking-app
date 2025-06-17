@@ -28,7 +28,7 @@ export default function OrdersScreen() {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('OrderDetails')} // ✅ І тут
+            onPress={() => navigation.navigate('OrderDetails', {itemId: item.id})}
           >
             <View style={styles.card}>
               <Text>{item.date} — {item.time}</Text>
