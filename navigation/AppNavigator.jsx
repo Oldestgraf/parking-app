@@ -93,7 +93,11 @@ export default function AppNavigator() {
         <Stack.Screen
           name="OrderDetails"
           component={OrderDetailsScreen}
-          options={{ title: 'Order Details' }}
+          options={{ 
+            title: 'Order Details',
+            gestureEnabled: true,
+            headerShown: true
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
