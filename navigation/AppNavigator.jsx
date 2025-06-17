@@ -2,6 +2,8 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
+import { COLORS } from '../constants/colors';
 
 import MapScreen from '../screens/MapScreen';
 import OrdersScreen from '../screens/OrdersScreen';
@@ -10,13 +12,48 @@ import VehiclesScreen from '../screens/VehiclesScreen';
 import CreditCardsScreen from '../screens/CreditCardsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SupportScreen from '../screens/SupportScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function Tabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          switch (route.name) {
+            case 'Map':
+              iconName = focused ? 'map' : 'map-outline';
+              break;
+            case 'Orders':
+              iconName = focused ? 'list' : 'list-outline';
+              break;
+            case 'Vehicles':
+              iconName = focused ? 'car' : 'car-outline';
+              break;
+            case 'Cards':
+              iconName = focused ? 'card' : 'card-outline';
+              break;
+            case 'Profile':
+              iconName = focused ? 'person' : 'person-outline';
+              break;
+            case 'Support':
+              iconName = focused ? 'help-circle' : 'help-circle-outline';
+              break;
+            default:
+              iconName = 'ellipse-outline';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: COLORS.primary,
+        tabBarInactiveTintColor: COLORS.gray,
+        headerShown: true,
+      })}
+    >
       <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Orders" component={OrdersScreen} />
       <Tab.Screen name="Vehicles" component={VehiclesScreen} />
