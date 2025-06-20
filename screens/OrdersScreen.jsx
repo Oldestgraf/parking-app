@@ -1,7 +1,8 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { use, useEffect, useState } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { COLORS } from '../constants/colors';
 import { useNavigation } from '@react-navigation/native';
+import { fetchOrders } from '../api/api';
 
 const orders = [
   { id: '1', location: 'Clement St', date: 'Jan 6', time: '9:15–15:30', amount: '$8.75' },
@@ -19,21 +20,49 @@ const orders = [
 ];
 
 export default function OrdersScreen() {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchOrders()
+    .then((data) => setOrders(data.slice(0, 20)))
+    .catch((err) => {
+      setError(err.message);
+      Alert.alert('Error', err.message);
+    })
+    .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color={COLORS.primary} />
+      </View>
+    )
+  }
+
+  if (error) {
+    return (
+      <View style={styles.center}>
+        <Text style={{ color: 'red' }}>{error}</Text>
+      </View>
+    )
+  }
 
   return (
     <View style={styles.container}>
       <FlatList
         data={orders}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('OrderDetails', {itemId: item.id})}
+            onPress={() => navigation.navigate('OrderDetails', { itemId: item.id })}
           >
             <View style={styles.card}>
-              <Text>{item.date} — {item.time}</Text>
-              <Text>{item.location}</Text>
-              <Text>{item.amount}</Text>
+              <Text style={styles.title}>{item.title}</Text>
+              <Text numberOfLines={2}>{item.body}</Text>
             </View>
           </TouchableOpacity>
         )}
@@ -55,5 +84,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: COLORS.lightGray,
+  },
+  title: {
+    fontWeight: 'bold',
+    marginBottom: 6,
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
