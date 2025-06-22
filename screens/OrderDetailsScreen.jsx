@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useMemo } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { fetchOrders } from '../api/api';
@@ -23,15 +23,16 @@ export default function OrderDetailsScreen() {
         const found = data.find((item) => item.id === itemId);
         setOrder(found);
       })
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => setLoading(false));
   }, [itemId]);
+
+  const titleMemo = useMemo(() => order?.title, [order]);
+  const bodyMemo = useMemo(() => order?.body, [order]);
 
   if (loading) {
     return (
       <ThemedView style={styles.center}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
+        <ActivityIndicator size="large" color={colors.primary} />
       </ThemedView>
     );
   }
@@ -45,9 +46,9 @@ export default function OrderDetailsScreen() {
   }
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText style={styles.title}>{order.title}</ThemedText>
-      <ThemedText>{order.body}</ThemedText>
+    <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
+      <ThemedText style={[styles.title, { color: colors.text }]}>{titleMemo}</ThemedText>
+      <ThemedText style={{ color: colors.text }}>{bodyMemo}</ThemedText>
     </ThemedView>
   );
 }
@@ -70,4 +71,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-

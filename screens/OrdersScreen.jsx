@@ -42,7 +42,7 @@ export default function OrdersScreen() {
   }
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
       <FlatList
         data={orders}
         keyExtractor={(item) => item.id.toString()}
@@ -50,9 +50,9 @@ export default function OrdersScreen() {
           <TouchableOpacity
             onPress={() => navigation.navigate('OrderDetails', { itemId: item.id })}
           >
-            <ThemedView style={[styles.card, { backgroundColor: colors.white }]}> 
-              <ThemedText style={styles.title}>{item.title}</ThemedText>
-              <ThemedText numberOfLines={2}>{item.body}</ThemedText>
+            <ThemedView style={[styles.card, { backgroundColor: colors.white }]}>
+              <ThemedText style={[styles.title, { color: colors.text }]}>{item.title}</ThemedText>
+              <ThemedText numberOfLines={2} style={{ color: colors.text }}>{item.body}</ThemedText>
             </ThemedView>
           </TouchableOpacity>
         )}
@@ -70,6 +70,8 @@ const styles = StyleSheet.create({
     padding: 12,
     marginBottom: 12,
     borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    borderRadius: 8,
   },
   title: {
     fontWeight: 'bold',
