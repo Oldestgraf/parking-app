@@ -90,15 +90,6 @@
 
 ---
 
-## 🧪 Встановлення та запуск
-
-```bash
-git clone https://github.com/yourname/parking-app.git
-cd parking-app
-npm install
-npx expo start
-
-
 ## Аналіз застосунку
 
 1. Компонент з потребою в анімації
@@ -111,3 +102,13 @@ npx expo start
 
 3. Великі залежності в package.json
 "react-native-maps": "^1.20.1" - велика вага
+
+---
+
+## 🧪 Встановлення та запуск
+
+```bash
+git clone https://github.com/yourname/parking-app.git
+cd parking-app
+npm install
+npx expo start
