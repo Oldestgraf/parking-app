@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import React, { useEffect, useState, useContext } from 'react';
+import { StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { ThemeContext } from '../context/ThemeContext';
 import { COLORS } from '../constants/colors';
+import { ThemedView } from '../components/ThemedView';
+import darkMapStyle from '../constants/darkMapStyle';
 
 export default function MapScreen() {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { theme } = useContext(ThemeContext);
+  const colors = COLORS[theme];
 
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
+      const { status } = await Location.requestForegroundPermissionsAsync();
 
       if (status !== 'granted') {
         Alert.alert('Permission denied', 'Location access is required.');
@@ -18,7 +23,7 @@ export default function MapScreen() {
         return;
       }
 
-      let currentLocation = await Location.getCurrentPositionAsync({});
+      const currentLocation = await Location.getCurrentPositionAsync({});
       setLocation(currentLocation.coords);
       setLoading(false);
     })();
@@ -26,16 +31,19 @@ export default function MapScreen() {
 
   if (loading) {
     return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
-      </View>
+      <ThemedView style={styles.center}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </ThemedView>
     );
   }
 
   return (
     <MapView
+      key={theme}
+      provider="google"
       style={styles.map}
       showsUserLocation
+      customMapStyle={theme === 'dark' ? darkMapStyle : []}
       region={{
         latitude: location.latitude,
         longitude: location.longitude,

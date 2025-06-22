@@ -1,6 +1,9 @@
-import React from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { FlatList, StyleSheet } from 'react-native';
 import VehicleCard from '../components/VehicleCard';
+import { ThemeContext } from '../context/ThemeContext';
+import { ThemedView } from '../components/ThemedView';
+import { ThemedText } from '../components/ThemedText';
 import { COLORS } from '../constants/colors';
 
 const vehicles = [
@@ -10,8 +13,11 @@ const vehicles = [
 ];
 
 export default function VehiclesScreen() {
+  const { theme } = useContext(ThemeContext);
+  const colors = COLORS[theme];
+
   return (
-    <View style={styles.container}>
+    <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
       <FlatList
         data={vehicles}
         keyExtractor={(item) => item.id}
@@ -23,7 +29,7 @@ export default function VehiclesScreen() {
           />
         )}
       />
-    </View>
+    </ThemedView>
   );
 }
 
@@ -31,6 +37,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: COLORS.background,
   },
 });
+

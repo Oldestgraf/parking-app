@@ -1,7 +1,14 @@
-import 'react-native-gesture-handler';
 import React from 'react';
 import AppNavigator from './navigation/AppNavigator';
+import { ThemeProvider } from './context/ThemeContext';
+import { FontProvider } from './context/FontContext';
 
 export default function App() {
-  return <AppNavigator />;
+  return (
+    <ThemeProvider>
+      <FontProvider>
+        <AppNavigator />
+      </FontProvider>
+    </ThemeProvider>
+  );
 }

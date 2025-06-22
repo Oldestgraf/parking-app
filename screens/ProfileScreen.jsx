@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import CustomButton from '../components/CustomButton';
+import { ThemedText } from '../components/ThemedText';
+import { ThemedView } from '../components/ThemedView';
 
 export default function ProfileScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>+1 ***-***-8324</Text>
-      <Text style={styles.text}>Account Status: Verified</Text>
+    <ThemedView style={styles.container}>
+      <ThemedText style={styles.text}>+1 ***-***-8324</ThemedText>
+      <ThemedText style={styles.text}>Account Status: Verified</ThemedText>
       <CustomButton title="Logout" onPress={() => console.log('Logout')} />
-    </View>
+    </ThemedView>
   );
 }
 
@@ -19,7 +21,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontSize: 18,
     marginBottom: 12,
   },
 });
