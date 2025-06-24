@@ -15,6 +15,9 @@ import ProfileScreen from '../screens/ProfileScreen';
 
 import OtherStackScreen from './OtherStack';
 
+import { enableScreens } from 'react-native-screens';
+enableScreens();
+
 const Tab = createBottomTabNavigator();
 const RootStack = createNativeStackNavigator();
 
